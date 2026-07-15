@@ -4,10 +4,12 @@
 **Date Completed:** 15/07/2026
 
 ---
-**Note:** AWS doesn't allow security group names to start with "sg-" (that
+**Note:** 
+AWS doesn't allow security group names to start with "sg-" (that
 prefix is reserved for auto-generated security group IDs). Renamed all four groups with the suffix pattern instead: bastion-sg, web-tier-sg, app-tier-sg, database-sg.
 
-**Note:** The lab's original design has app and database tiers fully private
+**Note:** 
+The lab's original design has app and database tiers fully private
 (no public IP), but this requires a NAT Gateway for outbound internet access
 (needed to install packages like netcat/Node.js), which isn't covered until
 next week's lab. Per instructor guidance, app and database instances were
@@ -15,6 +17,17 @@ given temporary public IPs for this lab only, to allow package installation.
 Inbound access remains fully restricted by security groups regardless -
 only bastion-sg can SSH to these instances, so this doesn't compromise the
 actual access control being demonstrated.
+
+**Note:**
+During test phase(README.md step 4), when I had to document with screenshots,
+I put all the separate terminals into 1 png file. 
+On the top of each terminal session I echoed which test phase I'm doing 
+at that very moment (from test 1~7). 
+At my current learning stage this felt the easiest to see through for me and
+for anyone who will check my work. 
+
+
+
 
 # Environment Details
 
@@ -89,17 +102,12 @@ screenshots/01-security-groups-list.png
 
 ### Why reference a security group instead of a private IP or CIDR?
 
-**Your Answer**
+In AWS, servers reboot, scale up, and scale down constantly. Every time they do, they get brand new IP addresses. If I lock the database down to a specific IP, I’ll be stuck manually updating firewall rules every single time a server restarts or more added. 
+If I refer it to the correct security group ID any time a scaling or restart happens it automatically connects to it no matter the IP.
 
-```
-_______________________________________________________________
 
-_______________________________________________________________
 
-_______________________________________________________________
-```
 
----
 
 # Step 2: Launch Instances and Connect Through the Bastion
 
@@ -157,15 +165,14 @@ Host db
 
 ### Why must you target the private tiers by private IP instead of public IP?
 
-**Your Answer**
+Shrinking the attack surface of the instances. Any public IP is an extra target that anyone can try to break into.
+Brutefocring in or overwhelm with DDoS. The defence in depth model builds on this that only what is a must to expose 
+to the wide internet should be exposed. Example: load balancer or Bastion. Also setting up 1 way traffic only. 
+If a server needs an update it should establish a one way channel through NAT gateway. It would allow to reach out
+but does not establish the channel backwards. 
 
-```
-_______________________________________________________________
 
-_______________________________________________________________
 
-_______________________________________________________________
-```
 
 ---
 # Step 3: Simulate Application Traffic
@@ -188,17 +195,7 @@ screenshots/03-services-running.png
 
 ### Anything that did not start cleanly?
 
-**Your Answer**
-
-```
-_______________________________________________________________
-
-_______________________________________________________________
-
-_______________________________________________________________
-```
-
----
+All worked as intended. 
 
 # Step 4: Test Traffic Flow
 
@@ -246,15 +243,7 @@ Tick the box if the test did what the **Expected** column says.
 
 If no, what did you have to fix?
 
-```
-_______________________________________________________________
-
-_______________________________________________________________
-
-_______________________________________________________________
-```
-
----
+N/A
 
 # Step 5: Architecture
 
@@ -324,87 +313,62 @@ _______________________________________________________________
 
 ## 1. Why can the application tier reach the database, but the web tier cannot?
 
-```
-_______________________________________________________________
+Because in the security groups I stated that webtier should not have permission to communicate with the database.
+webtier is exposed to the internet and in case someone manages to get inside the webtier instance will have a direct route 
+to the database.
 
-_______________________________________________________________
 
-_______________________________________________________________
-```
-
----
 
 ## 2. Why do all private instances only accept SSH from the bastion?
 
-```
-_______________________________________________________________
 
-_______________________________________________________________
+Bastion works as the middle man. Bastion only accepts SSH connection specifically from my IP or whoever else is allowed.
+Once Bastion confirmed that my SSH key is valid it will initiate a connection to the private instance. 
+This way there are no exposed port toward the internet that can be targeted.
 
-_______________________________________________________________
-```
-
----
 
 ## 3. When a connection timed out instead of failing immediately, what was blocking it?
 
-```
-_______________________________________________________________
+It's the Security Group (or NACL) dropping traffic without any feedback. Because Security Groups default to "deny all," any traffic that isn't explicitly allowed gets dropped.
 
-_______________________________________________________________
+Immediate failure is more of a software issue. EC2 instance not running or the listening port is different. 
 
-_______________________________________________________________
-```
-
----
 
 ## 4. Which security group rule would you never configure in a production environment, and why?
 
-```
-_______________________________________________________________
+Inside the private instances the inbound traffic to be set global 0.0.0.0.0.
+It would give another target surface to the wide internet and bots can brute force,
+getting DDoS attacks. 
+Violates the least priviliged principal among with breaking the defence in depth.
 
-_______________________________________________________________
 
-_______________________________________________________________
-```
-
----
 
 # Key Learnings
 
 ### Hardest part of this lab
 
-```
-_______________________________________________________________
-
-_______________________________________________________________
-```
-
----
+Making sure that every security group is correctly setup (inbound,outbound rules).
+Once the setup is done then to check if all of them works as intended
+and also for me to actually imagine the connections without any connection drawings/ pictures for it. 
 
 ### One thing I will do differently in future AWS deployments
 
-```
-_______________________________________________________________
-
-_______________________________________________________________
-```
-
----
+Before I setup any kind of security group I would write/ draw a skeleton to check if the groups are compliance ready 
+and no miss configuration happens at the actual deployment. 
 
 # Checklist
 
-- [ ] 4 security groups created with security group references
-- [ ] 4 EC2 instances launched
-- [ ] SSH works only through the bastion
-- [ ] Required services running on all tiers
-- [ ] All 7 connectivity tests completed
-- [ ] Blocked traffic confirmed with timeouts
-- [ ] End-to-end application test successful
-- [ ] Architecture documented
-- [ ] All required screenshots captured
-- [ ] Reflection questions completed
-- [ ] Changes committed to Git
-- [ ] Pull Request created
+- [X] 4 security groups created with security group references
+- [X] 4 EC2 instances launched
+- [X] SSH works only through the bastion
+- [X] Required services running on all tiers
+- [X] All 7 connectivity tests completed
+- [X] Blocked traffic confirmed with timeouts
+- [X] End-to-end application test successful
+- [X] Architecture documented
+- [X] All required screenshots captured
+- [X] Reflection questions completed
+- [X] Changes committed to Git
+- [X] Pull Request created
 
 
