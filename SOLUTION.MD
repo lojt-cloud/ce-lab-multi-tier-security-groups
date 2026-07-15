@@ -106,26 +106,45 @@ screenshots/02-web-tier-rules.png
 
 ---
 
-- [ ] 4 instances launched, one security group each
-- [ ] Connected to the bastion from my laptop
-- [ ] Reached web / app / db by **private IP** through the bastion
+- [X] 4 instances launched, one security group each
+- [X] Connected to the bastion from my laptop
+- [X] Reached web / app / db by **private IP** through the bastion
 
 ---
 
 ### Which connection method did you use?
 
-- [ ] ProxyJump
+- [X] ProxyJump
 - [ ] Copy key to bastion
 
 ---
 
 ### My `~/.ssh/config` (or the commands I ran)
 
-```text
-[Paste your host entries or SSH commands here]
-```
+Host bastion
+    HostName XX.XX.XX.XX (redacted)
+    User ec2-user
+    IdentityFile ~/.ssh/bootcamp-week2-key.pem
 
----
+Host web
+    HostName 172.31.25.29
+    User ec2-user
+    IdentityFile ~/.ssh/bootcamp-week2-key.pem
+    ProxyJump bastion
+
+Host app
+    HostName 172.31.17.142
+    User ec2-user
+    IdentityFile ~/.ssh/bootcamp-week2-key.pem
+    ProxyJump bastion
+
+Host db
+    HostName 172.31.30.68
+    User ec2-user
+    IdentityFile ~/.ssh/bootcamp-week2-key.pem
+    ProxyJump bastion
+
+
 
 ### Why must you target the private tiers by private IP instead of public IP?
 
