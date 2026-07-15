@@ -7,6 +7,15 @@
 **Note:** AWS doesn't allow security group names to start with "sg-" (that
 prefix is reserved for auto-generated security group IDs). Renamed all four groups with the suffix pattern instead: bastion-sg, web-tier-sg, app-tier-sg, database-sg.
 
+**Note:** The lab's original design has app and database tiers fully private
+(no public IP), but this requires a NAT Gateway for outbound internet access
+(needed to install packages like netcat/Node.js), which isn't covered until
+next week's lab. Per instructor guidance, app and database instances were
+given temporary public IPs for this lab only, to allow package installation.
+Inbound access remains fully restricted by security groups regardless -
+only bastion-sg can SSH to these instances, so this doesn't compromise the
+actual access control being demonstrated.
+
 # Environment Details
 
 | Tier | Instance ID | Private IP | Public IP | Security Group |
@@ -173,9 +182,9 @@ screenshots/03-services-running.png
 
 ---
 
-- [ ] Database: `nc -l 3306` loop running (`nmap-ncat` installed)
-- [ ] App: `server.js` listening on 8080 (`nodejs` installed)
-- [ ] Web: Nginx installed, proxying `/` to `http://APP_PRIVATE_IP:8080`, enabled on boot
+- [X] Database: `nc -l 3306` loop running (`nmap-ncat` installed)
+- [x] App: `server.js` listening on 8080 (`nodejs` installed)
+- [x] Web: Nginx installed, proxying `/` to `http://172.31.17.142:8080`, enabled on boot
 
 ### Anything that did not start cleanly?
 
