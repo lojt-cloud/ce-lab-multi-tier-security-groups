@@ -19,11 +19,11 @@ only bastion-sg can SSH to these instances, so this doesn't compromise the
 actual access control being demonstrated.
 
 **Note:**
-During test phase(README.md step 4), when I had to document with screenshots,
+During the test phase(README.md step 4), when I had to document with screenshots,
 I put all the separate terminals into 1 png file. 
-On the top of each terminal session I echoed which test phase I'm doing 
+At the top of each terminal session, I echoed which test phase I'm doing 
 at that very moment (from test 1~7). 
-At my current learning stage this felt the easiest to see through for me and
+At my current learning stage, this felt the easiest to see through for me and
 for anyone who will check my work. 
 
 
@@ -48,13 +48,7 @@ for anyone who will check my work.
 
 ## Screenshot 1 – Security Groups List
 
-Save your screenshot as:
 
-```
-screenshots/01-security-groups-list.png
-```
-
-![Security Groups List](screenshots/01-security-groups-list.png)
 
 ---
 
