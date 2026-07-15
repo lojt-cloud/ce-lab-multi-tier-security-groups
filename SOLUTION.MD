@@ -48,7 +48,7 @@ for anyone who will check my work.
 
 ## Screenshot 1 – Security Groups List
 
-
+![Security Groups](screenshots/01-security-groups.png)
 
 ---
 
