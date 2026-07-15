@@ -1,9 +1,11 @@
 # Configure Multi-Tier Security Groups Lab - Solution
 
-**Student Name:** [Your Name]  
-**Date Completed:** [Date]
+**Student Name:** Balint Lojt
+**Date Completed:** 15/07/2026
 
 ---
+**Note:** AWS doesn't allow security group names to start with "sg-" (that
+prefix is reserved for auto-generated security group IDs). Renamed all four groups with the suffix pattern instead: bastion-sg, web-tier-sg, app-tier-sg, database-sg.
 
 # Environment Details
 
@@ -34,44 +36,44 @@ screenshots/01-security-groups-list.png
 
 ---
 
-- [ ] `sg-bastion` created
-- [ ] `sg-web-tier` created
-- [ ] `sg-app-tier` created
-- [ ] `sg-database` created
-- [ ] Rules reference other **security groups**, not IP ranges (except port 22 on the bastion and 80/443 on the web tier)
+- [X] `sg-bastion` created
+- [x] `sg-web-tier` created
+- [x] `sg-app-tier` created
+- [x] `sg-database` created
+- [x] Rules reference other **security groups**, not IP ranges (except port 22 on the bastion and 80/443 on the web tier)
 
-### sg-bastion
+### bastion-sg
 
 | Direction | Port | Source / Destination | Purpose |
 |-----------|------|----------------------|---------|
-| Inbound | [22] | [YOUR_IP/32] | [SSH from my laptop] |
-| Outbound | [22] | [sg-web-tier, sg-app-tier, sg-database] | [Hop to private tiers] |
+| Inbound | [22] | [143.179.136.227/32] | [SSH from my laptop] |
+| Outbound | [22] | [web-tier-sg, app-tier-sg, database-sg] | [Hop to private tiers] |
 
-### sg-web-tier
+### web-tier-sg
 
 | Direction | Port | Source / Destination | Purpose |
 |-----------|------|----------------------|---------|
 | Inbound | [80] | [0.0.0.0/0] | [Public HTTP] |
 | Inbound | [443] | [0.0.0.0/0] | [Public HTTPS] |
-| Inbound | [22] | [sg-bastion] | [SSH via bastion only] |
-| Outbound | [8080] | [sg-app-tier] | [Proxy to app tier] |
+| Inbound | [22] | [bastion-sg] | [SSH via bastion only] |
+| Outbound | [8080] | [app-tier-sg] | [Proxy to app tier] |
 | Outbound | [443] | [0.0.0.0/0] | [Package downloads] |
 
-### sg-app-tier
+### app-tier-sg
 
 | Direction | Port | Source / Destination | Purpose |
 |-----------|------|----------------------|---------|
-| Inbound | [8080] | [sg-web-tier] | [App traffic from web tier] |
-| Inbound | [22] | [sg-bastion] | [SSH via bastion only] |
-| Outbound | [3306] | [sg-database] | [MySQL queries] |
+| Inbound | [8080] | [web-tier-sg] | [App traffic from web tier] |
+| Inbound | [22] | [bastion-sg] | [SSH via bastion only] |
+| Outbound | [3306] | [database-sg] | [MySQL queries] |
 | Outbound | [443] | [0.0.0.0/0] | [Package downloads] |
 
-### sg-database
+### database-sg
 
 | Direction | Port | Source / Destination | Purpose |
 |-----------|------|----------------------|---------|
-| Inbound | [3306] | [sg-app-tier] | [MySQL from app tier only] |
-| Inbound | [22] | [sg-bastion] | [SSH via bastion only] |
+| Inbound | [3306] | [app-tier-sg] | [MySQL from app tier only] |
+| Inbound | [22] | [bastion-sg] | [SSH via bastion only] |
 | Outbound | [443] | [0.0.0.0/0] | [Package downloads] |
 
 ---
