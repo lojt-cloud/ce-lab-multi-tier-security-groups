@@ -220,13 +220,13 @@ Tick the box if the test did what the **Expected** column says.
 
 | # | Test | Run from | Expected | Got it |
 |---|------|----------|----------|--------|
-| 1 | `curl http://WEB_PUBLIC_IP` | Laptop | ✅ HTTP 200 | [ ] |
-| 2 | `ssh bastion`, then `ssh WEB_PRIVATE_IP` | Laptop → bastion | ✅ Connects | [ ] |
-| 3 | `ssh ec2-user@WEB_PUBLIC_IP` | Laptop | ❌ Timeout | [ ] |
-| 4 | `nc -zv APP_PRIVATE_IP 8080` | Web | ✅ Succeeds | [ ] |
-| 5 | `nc -zv DB_PRIVATE_IP 3306` | App | ✅ Succeeds | [ ] |
-| 6 | `nc -zv DB_PRIVATE_IP 3306` | Web | ❌ Timeout | [ ] |
-| 7 | `curl http://WEB_PUBLIC_IP` | Laptop | ✅ "Hello from App Tier" | [ ] |
+| 1 | `curl 34.235.128.23 | Laptop | ✅ HTTP 200 | [worked as intended ] |
+| 2 | `ssh bastion`, then `ssh WEB_PRIVATE_IP` | Laptop → bastion | ✅ Connects | [ worked as intended] |
+| 3 | `ssh ec2-user@WEB_PUBLIC_IP` | Laptop | ❌ Timeout | [ worked as intended, got no response form terminal] |
+| 4 | `nc -zv APP_PRIVATE_IP 8080` | Web | ✅ Succeeds | [worked as intended ] |
+| 5 | `nc -zv DB_PRIVATE_IP 3306` | App | ✅ Succeeds | [worked as intended ] |
+| 6 | `nc -zv DB_PRIVATE_IP 3306` | Web | ❌ Timeout | [worked as intended ] |
+| 7 | `curl http://WEB_PUBLIC_IP` | Laptop | ✅ "Hello from App Tier" | [worked as intended] |
 
 ---
 
@@ -234,14 +234,14 @@ Tick the box if the test did what the **Expected** column says.
 
 (Timeout is the correct answer. "Connection refused" means the web tier can reach the database and a rule is too permissive.)
 
-- [ ] Timed out / hung ✅ Correct
+- [X] Timed out / hung ✅ Correct
 - [ ] Connection refused ⚠️ Rules too permissive
 
 ---
 
 ### Did every test pass on the first attempt?
 
-- [ ] Yes
+- [X] Yes
 - [ ] No
 
 If no, what did you have to fix?
@@ -272,31 +272,25 @@ screenshots/05-architecture-console.png
 
 Confirm each communication path.
 
-- [ ] Internet → Web on port **80**
-- [ ] Web → App on port **8080**
-- [ ] App → Database on port **3306**
-- [ ] SSH access only through the bastion host
-- [ ] Web → Database blocked
-- [ ] Internet → App blocked
-- [ ] Internet → Database blocked
+- [X] Internet → Web on port **80**
+- [X] Web → App on port **8080**
+- [X] App → Database on port **3306**
+- [X] SSH access only through the bastion host
+- [X] Web → Database blocked
+- [X] Internet → App blocked
+- [X] Internet → Database blocked
 
 ---
 
 ### Instances with no public IP
-
-```
-_______________________________________________________________
-```
-
----
+Database
+App 
 
 ### Instances reachable from the Internet
 
-```
-_______________________________________________________________
-```
+Bastion
+Web
 
----
 
 # Bonus Challenges (Optional)
 
