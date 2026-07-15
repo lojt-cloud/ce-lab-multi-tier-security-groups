@@ -48,7 +48,7 @@ for anyone who will check my work.
 
 ## Screenshot 1 – Security Groups List
 
-![Security Groups](screenshots/01-security-groups.png)
+![Security Groups](Screenshots/01-security-groups-list.png)
 
 ---
 
@@ -113,13 +113,13 @@ Save your screenshot as:
 screenshots/02-web-tier-rules.png
 ```
 
-![Web Tier Rules](screenshots/02-web-tier-rules.png)
+![Web Tier Rules](Screenshots/02-web-tier-rules.png)
 
 ---
 
 - [X] 4 instances launched, one security group each
 - [X] Connected to the bastion from my laptop
-- [X] Reached web / app / db by **private IP** through the bastion
+- [X] Reached web/app / db by **private IP** through the bastion
 
 ---
 
@@ -176,10 +176,10 @@ but does not establish the channel backwards.
 Save your screenshot as:
 
 ```
-screenshots/03-services-running.png
+creenshots/03-services-running.png
 ```
 
-![Services Running](screenshots/03-services-running.png)
+![Services Running](Screenshots/03-services-running.png)
 
 ---
 
@@ -201,7 +201,7 @@ Save your screenshot as:
 screenshots/04-traffic-flow-test.png
 ```
 
-![Traffic Flow Test](screenshots/04-traffic-flow-test.png)
+![Traffic Flow Test](Screenshots/04-traffic-flow-test.png)
 
 ---
 
@@ -249,7 +249,7 @@ Save your screenshot as:
 screenshots/05-architecture-console.png
 ```
 
-![Architecture Console](screenshots/05-architecture-console.png)
+![Architecture Console](Screenshots/05-architecture-console.png)
 
 ---
 
@@ -316,9 +316,9 @@ to the database.
 ## 2. Why do all private instances only accept SSH from the bastion?
 
 
-Bastion works as the middle man. Bastion only accepts SSH connection specifically from my IP or whoever else is allowed.
-Once Bastion confirmed that my SSH key is valid it will initiate a connection to the private instance. 
-This way there are no exposed port toward the internet that can be targeted.
+Bastion works as the middleman. Bastion only accepts SSH connections specifically from my IP or whoever else is allowed.
+Once Bastion confirms that my SSH key is valid, it will initiate a connection to the private instance. 
+This way, there are no exposed ports toward the internet that can be targeted.
 
 
 ## 3. When a connection timed out instead of failing immediately, what was blocking it?
@@ -330,7 +330,7 @@ Immediate failure is more of a software issue. EC2 instance not running or the l
 
 ## 4. Which security group rule would you never configure in a production environment, and why?
 
-Inside the private instances the inbound traffic to be set global 0.0.0.0.0.
+Inside the private instances, the inbound traffic is set to global 0.0.0.0.0.
 It would give another target surface to the wide internet and bots can brute force,
 getting DDoS attacks. 
 Violates the least priviliged principal among with breaking the defence in depth.
@@ -341,14 +341,14 @@ Violates the least priviliged principal among with breaking the defence in depth
 
 ### Hardest part of this lab
 
-Making sure that every security group is correctly setup (inbound,outbound rules).
-Once the setup is done then to check if all of them works as intended
+Making sure that every security group is correctly set up (inbound, outbound rules).
+Once the setup is done, then to check if all of them work as intended
 and also for me to actually imagine the connections without any connection drawings/ pictures for it. 
 
 ### One thing I will do differently in future AWS deployments
 
-Before I setup any kind of security group I would write/ draw a skeleton to check if the groups are compliance ready 
-and no miss configuration happens at the actual deployment. 
+Before I set up any kind of security group, I would write/ draw a skeleton to check if the groups are compliance-ready 
+and no misconfiguration happens at the actual deployment. 
 
 # Checklist
 
